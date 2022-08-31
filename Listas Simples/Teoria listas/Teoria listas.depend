@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1661914397 source:c:\users\frank\desktop\utn\laboratorio ii\labo ii listas\teoria listas\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
