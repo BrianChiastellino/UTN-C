@@ -28,6 +28,7 @@ nodo* inicializarLista();
 nodo* crearNodo (char nombre[30], int edad);
 nodo* agregarPrincipio (nodo* lista, nodo *nodoNuevo);
 nodo* darUltimoNodo (nodo* lista);
+nodo* eliminarNodo (nodo * lista, int dato);
 
 
 
@@ -143,7 +144,44 @@ nodo* darUltimoNodo (nodo* lista)
     return siguiente;
 }
 
+nodo* eliminarNodo (nodo * lista, int dato)
+{
+    nodo * aux;
+    nodo * iterador;
+    nodo * anterior;
+    if (lista != NULL && lista->edad == dato)  // El dato esta en el primer nodo.
+    {
+        aux = lista;
+        lista = lista->siguienteNodo;
+        free(aux);
+    }
+    else
+    {
+        aux = lista;
 
+        while (aux != NULL && aux->edad != dato) // mientras no llegue al final y no encuentre el nodo, avanzo.
+        {
+            iterador = aux;
+            aux = aux->siguienteNodo;
+        }
+
+        if (iterador != NULL) // Encontre el dato
+         {
+                aux = iterador;
+                iterador = iterador->siguienteNodo;
+                anterior->siguienteNodo = iterador;
+                free(aux);
+         }
+         else  // llegue al final y no encontre el dato
+         {
+             printf("\nNo se encontro el dato");
+         }
+
+    }
+
+        return lista;
+
+}
 
 
 
