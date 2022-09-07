@@ -180,7 +180,6 @@ nodo* eliminarNodo (nodo * lista, int dato)
     }
 
         return lista;
-
 }
 
 
