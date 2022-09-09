@@ -27,6 +27,9 @@ nodo * agregarPrincipio (nodo * lista, nodo * nuevoNodo);
 nodo * agregarEnOrden (nodo * lista, nodo * nuevoNodo);
 void mostrarNodoPersona (nodo * lista);
 
+int existeDatoEnLista (nodo * lista, int dato);
+
+
 
 
 
@@ -35,21 +38,31 @@ void mostrarNodoPersona (nodo * lista);
 int main()
 {
     char archivoPersona[] = "archivoPersona.dat";
-
+    int edad;
 
     nodo * lista  = inicializarLista();
 
     puts("-------- Archivo -----------");
-    cargarPersonaToArchivo(archivoPersona);
+    //cargarPersonaToArchivo(archivoPersona);
     mostrarArchivoPersona(archivoPersona);
 
-    puts("\n\n-------- NODO ---------- ");
+
+    puts("\n\n-------- NODO ---------- ");      //Ejercicio 1 y 2
     lista = archivoToLista(archivoPersona, lista);
     mostrarNodoPersona(lista);
 
     puts("\n--------------");
 
+    printf("\nIngrese una edad valdia para buscar en la lista: ");      // Ejercicio 3
+    scanf("%d",&edad);
 
+    if (existeDatoEnLista(lista,edad) == 1)
+        printf("La edad buscada se encuentra en la lista");
+    else
+        printf("\nLa edad no se encuentra en la lista.");
+
+
+    puts("\n--------------");
 
 
 
@@ -231,7 +244,21 @@ nodo * agregarEnOrden (nodo * lista, nodo * nuevoNodo)
 
 }
 
+int existeDatoEnLista (nodo * lista, int dato)
+{
+    nodo * iterador = lista;
+    int respuesta = 0;
 
+    while (iterador != NULL)
+    {
+        if (iterador->persona.edad == dato)
+            respuesta = 1;
+
+        iterador = iterador->siguienteNodo;
+    }
+
+    return respuesta;
+}
 
 
 
