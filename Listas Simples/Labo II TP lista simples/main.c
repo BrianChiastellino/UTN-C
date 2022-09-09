@@ -10,38 +10,37 @@ typedef struct
 
 } stPersona;
 
-typedef struct
+typedef struct nodo
 {
     stPersona persona;
     struct nodo * siguienteNodo;
 
 } nodo;
 
-nodo * inicializarLista ();
 void cargarPersonaToArchivo (char archivo[]);
 void mostrarArchivoPersona(char archivo[]);
 void mostrarDatosPersona (stPersona personaAux);
 
-nodo * agregarPrincipio (nodo * lista, nodo * nuevoNodo);
+nodo * inicializarLista ();
 nodo * archivoToLista (char archivo[], nodo * lista);
+nodo * agregarPrincipio (nodo * lista, nodo * nuevoNodo);
+nodo * agregarEnOrden (nodo * lista, nodo * nuevoNodo);
 void mostrarNodoPersona (nodo * lista);
 
 
-//void mostrarNodosDiego(stNodo** lista);
+
 
 
 
 int main()
 {
     char archivoPersona[] = "archivoPersona.dat";
-    char archivoEntero [] = "archivoEntero.dat";
+
 
     nodo * lista  = inicializarLista();
-    nodo * lista1 = inicializarLista();
-
 
     puts("-------- Archivo -----------");
-    //cargarPersonaToArchivo(archivoPersona);
+    cargarPersonaToArchivo(archivoPersona);
     mostrarArchivoPersona(archivoPersona);
 
     puts("\n\n-------- NODO ---------- ");
@@ -170,8 +169,8 @@ nodo * archivoToLista (char archivo[], nodo * lista)
     {
         while (fread(&personaAux,sizeof(stPersona),1,archi) > 0)
         {
-
-            lista = agregarPrincipio(lista,crearNodo(personaAux));
+            lista = agregarEnOrden(lista,crearNodo(personaAux));
+            //lista = agregarPrincipio(lista,crearNodo(personaAux));
         }
 
         fclose(archi);
@@ -186,19 +185,67 @@ nodo * archivoToLista (char archivo[], nodo * lista)
 
 void mostrarNodoPersona (nodo * lista)
 {
-    nodo * aux = lista;
+    nodo * iterador = lista;
 
-    if (aux == NULL)
+    if (iterador == NULL)
         puts("No hay nodos");
     else
     {
-        while (aux != NULL)
+        while (iterador != NULL)
         {
-            mostrarDatosPersona(aux->persona);
-            aux = aux->siguienteNodo;
+            mostrarDatosPersona(iterador->persona);
+            iterador = iterador->siguienteNodo;
         }
     }
 }
+
+nodo * agregarEnOrden (nodo * lista, nodo * nuevoNodo)
+{
+    if (lista == NULL)
+    {
+        lista = nuevoNodo;
+    }
+    else
+    {
+        if (nuevoNodo->persona.edad < lista->persona.edad)
+        {
+            lista = agregarPrincipio(lista,nuevoNodo);
+        }
+        else
+        {
+            nodo * anterior = lista;
+            nodo * iterador = lista;
+
+            while (iterador != NULL && nuevoNodo->persona.edad > iterador->persona.edad)
+            {
+                anterior = iterador;
+                iterador = iterador->siguienteNodo;
+            }
+
+            anterior->siguienteNodo = nuevoNodo;
+            nuevoNodo->siguienteNodo = iterador;
+        }
+    }
+
+    return lista;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
