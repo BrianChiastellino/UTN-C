@@ -38,9 +38,6 @@ int existeDatoEnLista (nodo * lista, int dato);
 
 
 
-
-
-
 int main()
 {
     char archivoPersona[] = "archivoPersona.dat";
@@ -70,20 +67,6 @@ int main()
     listaIntercalada = invertirLista(listaIntercalada);
 
     mostrarNodoPersona(listaIntercalada);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     return 0;
