@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+
 typedef struct
 {
     int edad;
     char nombre[30];
-    char genero;
 
 } stPersona;
 
@@ -20,14 +20,20 @@ typedef struct nodo
 void cargarPersonaToArchivo (char archivo[]);
 void mostrarArchivoPersona(char archivo[]);
 void mostrarDatosPersona (stPersona personaAux);
+void mostrarNodoPersona (nodo * lista);
 
 nodo * inicializarLista ();
 nodo * archivoToLista (char archivo[], nodo * lista);
-nodo * agregarPrincipio (nodo * lista, nodo * nuevoNodo);
+nodo * agregarAlPrincipio (nodo * lista, nodo * nuevoNodo);
+nodo * crearNodo (stPersona personaAux);
 nodo * agregarEnOrden (nodo * lista, nodo * nuevoNodo);
-void mostrarNodoPersona (nodo * lista);
+nodo * agregarAlFinal (nodo * lista, nodo * nuevoNodo);
+nodo * intercambiarListas (nodo * lista1, nodo * lista2, nodo * lista3);
+nodo * invertirLista (nodo * lista);
 
 int existeDatoEnLista (nodo * lista, int dato);
+
+////////// TDA PILA proximamente /////////////
 
 
 
@@ -38,31 +44,41 @@ int existeDatoEnLista (nodo * lista, int dato);
 int main()
 {
     char archivoPersona[] = "archivoPersona.dat";
-    int edad;
+    char archivoPersona2[] = "archivoPersona2.dat";
 
     nodo * lista  = inicializarLista();
+    nodo * listaDos = inicializarLista();
+    nodo * listaIntercalada = inicializarLista();
 
-    puts("-------- Archivo -----------");
-    //cargarPersonaToArchivo(archivoPersona);
-    mostrarArchivoPersona(archivoPersona);
-
-
-    puts("\n\n-------- NODO ---------- ");      //Ejercicio 1 y 2
-    lista = archivoToLista(archivoPersona, lista);
-    mostrarNodoPersona(lista);
-
-    puts("\n--------------");
-
-    printf("\nIngrese una edad valdia para buscar en la lista: ");      // Ejercicio 3
-    scanf("%d",&edad);
-
-    if (existeDatoEnLista(lista,edad) == 1)
-        printf("La edad buscada se encuentra en la lista");
-    else
-        printf("\nLa edad no se encuentra en la lista.");
+    /*
+        cargarPersonaToArchivo(archivoPersona);
+        printf("\nSegundo archivo");
+        cargarPersonaToArchivo(archivoPersona2);
+    */
 
 
-    puts("\n--------------");
+    lista = archivoToLista(archivoPersona,lista);
+    listaDos = archivoToLista(archivoPersona2,listaDos);
+
+   // mostrarNodoPersona(lista);
+   // mostrarNodoPersona(listaDos);
+
+    listaIntercalada = intercambiarListas(lista,listaDos,listaIntercalada);
+
+    mostrarNodoPersona(listaIntercalada);
+
+    listaIntercalada = invertirLista(listaIntercalada);
+
+    mostrarNodoPersona(listaIntercalada);
+
+
+
+
+
+
+
+
+
 
 
 
@@ -97,10 +113,6 @@ void cargarPersonaToArchivo (char archivo[])
             printf("\nIngrese nombre: ");
             fflush(stdin);
             gets(personaAux.nombre);
-
-            printf("\nIngrese genero: ");
-            fflush(stdin);
-            scanf("%c",&personaAux.genero);
 
             fwrite(&personaAux,sizeof(stPersona),1,archi);
 
@@ -144,7 +156,6 @@ void mostrarDatosPersona (stPersona personaAux)
     printf("\n---------------");
     printf("\nNombre: %s",personaAux.nombre);
     printf("\nEdad: %d",personaAux.edad);
-    printf("\nGenero: %c", personaAux.genero);
 }
 
 nodo * crearNodo (stPersona personaAux)
@@ -158,7 +169,7 @@ nodo * crearNodo (stPersona personaAux)
 
 }
 
-nodo * agregarPrincipio (nodo * lista, nodo * nuevoNodo)
+nodo * agregarAlPrincipio (nodo * lista, nodo * nuevoNodo)
 {
     if (lista == NULL)
     {
@@ -183,7 +194,7 @@ nodo * archivoToLista (char archivo[], nodo * lista)
         while (fread(&personaAux,sizeof(stPersona),1,archi) > 0)
         {
             lista = agregarEnOrden(lista,crearNodo(personaAux));
-            //lista = agregarPrincipio(lista,crearNodo(personaAux));
+            //lista = agregarAlPrincipio(lista,crearNodo(personaAux));
         }
 
         fclose(archi);
@@ -222,7 +233,7 @@ nodo * agregarEnOrden (nodo * lista, nodo * nuevoNodo)
     {
         if (nuevoNodo->persona.edad < lista->persona.edad)
         {
-            lista = agregarPrincipio(lista,nuevoNodo);
+            lista = agregarAlPrincipio(lista,nuevoNodo);
         }
         else
         {
@@ -249,7 +260,7 @@ int existeDatoEnLista (nodo * lista, int dato)
     nodo * iterador = lista;
     int respuesta = 0;
 
-    while (iterador != NULL)
+    while (iterador != NULL && respuesta == 0)
     {
         if (iterador->persona.edad == dato)
             respuesta = 1;
@@ -261,12 +272,101 @@ int existeDatoEnLista (nodo * lista, int dato)
 }
 
 
+nodo * intercambiarListas (nodo * lista1, nodo * lista2, nodo * lista3)
+{
 
+    /*
 
+    - Agregar al principio o agregar al final el unico cambio es el orden en que se guardan y se muestran.
+    - Mayor edad principio es agregarAlPrincipio
+    - Menor edad principio es agregarAlFinal
 
+    */
+    nodo * aux;
 
+    while (lista1 != NULL && lista2 != NULL)
+    {
+        if (lista1->persona.edad < lista2->persona.edad)
+        {
+            aux = lista1;
 
+            lista1 = lista1->siguienteNodo;
 
+            aux->siguienteNodo = inicializarLista();
+
+            lista3 = agregarAlFinal(lista3,aux);
+        }
+        else
+        {
+            aux = lista2;
+
+            lista2 = lista2->siguienteNodo;
+
+            aux->siguienteNodo = inicializarLista();
+
+            lista3 = agregarAlFinal(lista3,aux);
+        }
+    }
+
+    if (lista1 != NULL)
+    {
+        lista3 = agregarAlFinal(lista3,lista1);
+    }
+    else if (lista2 != NULL)
+    {
+        lista3 = agregarAlFinal(lista3,lista2);
+    }
+
+    return lista3;
+}
+
+nodo * agregarAlFinal (nodo * lista, nodo * nuevoNodo)
+{
+    nodo * anterior = lista;
+    nodo * iterador = lista;
+
+    if (lista == NULL)
+    {
+        lista = nuevoNodo;
+    }
+    else
+    {
+        while (iterador != NULL)
+        {
+            anterior = iterador;
+            iterador = iterador->siguienteNodo;
+        }
+
+        anterior->siguienteNodo = nuevoNodo;
+        nuevoNodo->siguienteNodo = iterador;
+
+    }
+
+    return lista;
+
+}
+
+nodo * invertirLista (nodo * lista)
+{
+    nodo * aux;
+    nodo * listaInvertida = inicializarLista();
+
+    while (lista != NULL)
+    {
+        printf("\nlasdkas");
+
+        aux = lista;
+
+        lista = lista->siguienteNodo;
+
+        aux->siguienteNodo = NULL;
+
+        listaInvertida = agregarAlPrincipio(listaInvertida,aux);
+
+    }
+
+    return listaInvertida;
+}
 
 
 
