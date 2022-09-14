@@ -2,13 +2,19 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 typedef struct
 {
     int edad;
     char nombre[30];
 
 } stPersona;
+
+typedef struct Pila
+{
+    stPersona persona;
+    struct Pila * topeAnterior;
+
+} Pila;
 
 typedef struct nodo
 {
@@ -40,8 +46,11 @@ int existeDatoEnLista (nodo * lista, int dato);
 
 int main()
 {
-    char archivoPersona[] = "archivoPersona.dat";
     char archivoPersona2[] = "archivoPersona2.dat";
+    Pila pilaMain;
+
+
+    char archivoPersona[] = "archivoPersona.dat";
 
     nodo * lista  = inicializarLista();
     nodo * listaDos = inicializarLista();
@@ -57,8 +66,8 @@ int main()
     lista = archivoToLista(archivoPersona,lista);
     listaDos = archivoToLista(archivoPersona2,listaDos);
 
-   // mostrarNodoPersona(lista);
-   // mostrarNodoPersona(listaDos);
+    // mostrarNodoPersona(lista);
+    // mostrarNodoPersona(listaDos);
 
     listaIntercalada = intercambiarListas(lista,listaDos,listaIntercalada);
 
@@ -351,13 +360,54 @@ nodo * invertirLista (nodo * lista)
     return listaInvertida;
 }
 
+/////////////// TDA PILA ////////////
+
+int pilaVacia (Pila ** pila)
+{
+    int respuesta = 1;
+
+    if ((*pila) == NULL)
+        respuesta = 0;
+
+    return respuesta;
+}
+
+stPersona topePila(Pila * pila)
+{
+    stPersona aux = pila->persona;
+    return aux;
+}
+
+stPersona desapilarTope (Pila * pila)
+{
+    stPersona aux = darPrimerStPersona(pila);
+    borrarPrimero(pila);
+    return aux;
+}
+
+stPersona darPrimerStPersona (Pila * pila)
+{
+    stPersona aux = pila->persona;
+    return aux;
+}
 
 
+void borrarPrimero (nodo * lista)
+{
+    nodo * primerNodo = inicializarLista();
 
+    if (lista != NULL)
+    {
+        primerNodo = lista;
+        lista = lista->siguienteNodo;
+        free(primerNodo);
+    }
+}
 
-
-
-
+void apilarPila (Pila * pila, stPersona datoPersona)
+{
+    pila = agregarAlPrincipio(pila,datoPersona);
+}
 
 
 
