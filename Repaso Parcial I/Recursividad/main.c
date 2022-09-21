@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <conio.h>
 
 void ejercicio1 ()
 {
@@ -97,16 +96,6 @@ void ejercicio7()
     printf("\nMenor elemento: %d", menorValor);
 }
 
-int main()
-{
-
-    ejercicio8();
-
-
-
-    return 0;
-}
-
 void ejercicio8()
 {
     char archivoInt[]  = "archivo.dat";
@@ -123,7 +112,57 @@ void ejercicio8()
 
 }
 
+void ejercicio9()
+{
+    int arreglo[] = {1,2,3,4,5};
+    int validos = 5;
 
+    char archivoInt[] = "archivo9.dat";
+
+    cargarArchivoDeArreglo(archivoInt,arreglo,validos);
+    mostrarArchivo(archivoInt);
+
+    puts("");
+
+    invertirArchivoSubPrograma(archivoInt);
+    mostrarArchivo(archivoInt);
+}
+
+void ejercicio10()
+{
+    char archivoInt[] = "archivo10.dat";
+    int arreglo[] = {1,2,3,10,12,13};
+    int validos = 6;
+
+    cargarArchivoDeArreglo(archivoInt,arreglo,validos);
+    mostrarArchivoInversoSubPrograma(archivoInt);
+}
+
+void ejercicio12 ()
+{
+    int arreglo[] = {10,23,30,40,50};
+    int validos = 5;
+    int dato = 0;
+    int existe;
+
+    existe = existeDatoEnArreglo(dato,arreglo,validos,0);
+
+    if (existe == 1)
+    {
+        printf("\nEl dato se encuentra en el arreglo ");
+    }
+    else
+    {
+        printf("\nEl dato no se encuentra en el arreglo ");
+    }
+}
+
+int main()
+{
+
+
+    return 0;
+}
 
 
 int factorialNumero (int numero)
@@ -358,5 +397,99 @@ int darValidosArchivo (FILE * archivo)
     return validos;
 }
 
+void invertirArchivoSubPrograma (char archivo[])
+{
+    FILE * archi = fopen(archivo,"r+b");
+    int validosArchivo;
 
+    if (archi != NULL)
+    {
+        validosArchivo = darValidosArchivo(archi);
+
+        /*
+        - Podemos pasar --validosArchivo
+        - Podemos pasar en parametro actual, validosAchivos-1
+        */
+
+        // --validosArchivo;
+        invertirArchivo(archi,validosArchivo-1,0);
+
+
+        fclose(archi);
+    }
+}
+
+void invertirArchivo (FILE * archivo, int validosArchivo, int iterador)
+{
+    int datoInicio;
+    int datoFinal;
+
+    if (iterador < validosArchivo)
+    {
+        datoInicio = retornarEnteroDesdeArchivo(archivo,iterador);
+        datoFinal = retornarEnteroDesdeArchivo(archivo,validosArchivo);
+
+        escribirEnArchivo(archivo,datoInicio,validosArchivo);
+        escribirEnArchivo(archivo,datoFinal,iterador);
+
+        invertirArchivo(archivo,validosArchivo-1,iterador+1);
+    }
+
+}
+
+void escribirEnArchivo (FILE * archivo, int dato, int iterador)
+{
+    if (iterador == 0)
+    {
+        fseek(archivo,0,SEEK_SET);
+        fwrite(&dato,sizeof(int),1,archivo);
+    }
+    else
+    {
+        fseek(archivo,sizeof(int)*iterador,SEEK_SET);
+        fwrite(&dato,sizeof(int),1,archivo);
+    }
+}
+
+void mostrarArchivoInversoSubPrograma (char archivo[])
+{
+    FILE * archi = fopen(archivo,"rb");
+
+    if (archi != NULL)
+    {
+        mostrarArchivoInverso(archi);
+
+        fclose(archi);
+    }
+}
+
+void mostrarArchivoInverso(FILE * archivo)
+{
+    int dato;
+    if (fread(&dato,sizeof(int),1,archivo) > 0)
+    {
+        mostrarArchivoInverso(archivo);
+        mostrarEntero(dato);
+    }
+}
+
+int existeDatoEnArreglo (int dato,int arreglo[], int validos, int i)
+{
+    int respuesta = 0;
+
+
+    if (i<validos)
+    {
+        if (arreglo[i] == dato)
+        {
+            respuesta = 1;
+        }
+        else
+        {
+            respuesta = existeDatoEnArreglo(dato,arreglo,validos,i+1);
+        }
+    }
+
+    return respuesta;
+}
 
