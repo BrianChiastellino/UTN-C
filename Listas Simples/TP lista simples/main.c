@@ -9,16 +9,10 @@ typedef struct
 
 } stPersona;
 
-typedef struct Pila
-{
-    stPersona persona;
-    struct Pila * topeAnterior;
-
-} Pila;
 
 typedef struct nodo
 {
-    stPersona persona;
+    stPersona personaDato;
     struct nodo * siguienteNodo;
 
 } nodo;
@@ -39,7 +33,6 @@ nodo * invertirLista (nodo * lista);
 
 int existeDatoEnLista (nodo * lista, int dato);
 
-////////// TDA PILA proximamente /////////////
 
 
 
@@ -47,7 +40,6 @@ int existeDatoEnLista (nodo * lista, int dato);
 int main()
 {
     char archivoPersona2[] = "archivoPersona2.dat";
-    Pila pilaMain;
 
 
     char archivoPersona[] = "archivoPersona.dat";
@@ -154,7 +146,7 @@ nodo * crearNodo (stPersona personaAux)
 {
     nodo * nuevoNodo = (nodo*)malloc(sizeof(nodo));
 
-    nuevoNodo->persona = personaAux;
+    nuevoNodo->personaDato = personaAux;
     nuevoNodo->siguienteNodo = NULL;
 
     return nuevoNodo;
@@ -209,7 +201,7 @@ void mostrarNodoPersona (nodo * lista)
     {
         while (iterador != NULL)
         {
-            mostrarDatosPersona(iterador->persona);
+            mostrarDatosPersona(iterador->personaDato);
             iterador = iterador->siguienteNodo;
         }
     }
@@ -223,7 +215,7 @@ nodo * agregarEnOrden (nodo * lista, nodo * nuevoNodo)
     }
     else
     {
-        if (nuevoNodo->persona.edad < lista->persona.edad)
+        if (nuevoNodo->personaDato.edad < lista->personaDato.edad)
         {
             lista = agregarAlPrincipio(lista,nuevoNodo);
         }
@@ -232,7 +224,7 @@ nodo * agregarEnOrden (nodo * lista, nodo * nuevoNodo)
             nodo * anterior = lista;
             nodo * iterador = lista;
 
-            while (iterador != NULL && nuevoNodo->persona.edad > iterador->persona.edad)
+            while (iterador != NULL && nuevoNodo->personaDato.edad > iterador->personaDato.edad)
             {
                 anterior = iterador;
                 iterador = iterador->siguienteNodo;
@@ -254,7 +246,7 @@ int existeDatoEnLista (nodo * lista, int dato)
 
     while (iterador != NULL && respuesta == 0)
     {
-        if (iterador->persona.edad == dato)
+        if (iterador->personaDato.edad == dato)
             respuesta = 1;
 
         iterador = iterador->siguienteNodo;
@@ -278,7 +270,7 @@ nodo * intercambiarListas (nodo * lista1, nodo * lista2, nodo * lista3)
 
     while (lista1 != NULL && lista2 != NULL)
     {
-        if (lista1->persona.edad < lista2->persona.edad)
+        if (lista1->personaDato.edad < lista2->personaDato.edad)
         {
             aux = lista1;
 
@@ -345,8 +337,6 @@ nodo * invertirLista (nodo * lista)
 
     while (lista != NULL)
     {
-        printf("\nlasdkas");
-
         aux = lista;
 
         lista = lista->siguienteNodo;
@@ -362,52 +352,7 @@ nodo * invertirLista (nodo * lista)
 
 /////////////// TDA PILA ////////////
 
-int pilaVacia (Pila ** pila)
-{
-    int respuesta = 1;
 
-    if ((*pila) == NULL)
-        respuesta = 0;
-
-    return respuesta;
-}
-
-stPersona topePila(Pila * pila)
-{
-    stPersona aux = pila->persona;
-    return aux;
-}
-
-stPersona desapilarTope (Pila * pila)
-{
-    stPersona aux = darPrimerStPersona(pila);
-    borrarPrimero(pila);
-    return aux;
-}
-
-stPersona darPrimerStPersona (Pila * pila)
-{
-    stPersona aux = pila->persona;
-    return aux;
-}
-
-
-void borrarPrimero (nodo * lista)
-{
-    nodo * primerNodo = inicializarLista();
-
-    if (lista != NULL)
-    {
-        primerNodo = lista;
-        lista = lista->siguienteNodo;
-        free(primerNodo);
-    }
-}
-
-void apilarPila (Pila * pila, stPersona datoPersona)
-{
-    pila = agregarAlPrincipio(pila,datoPersona);
-}
 
 
 

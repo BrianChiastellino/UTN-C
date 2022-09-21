@@ -163,9 +163,6 @@ int darMenorArreglo (int arreglo[], int validos, int i)
     }
 
     return menorElemento;
-
-
-
 }
 
 void cargarArchivo (char archivoInt[], int arreglo[], int validos)
@@ -207,20 +204,16 @@ int menorArchivo (FILE *archivo, int arreglo[], int validos, int i)
     {
         if (fread(&arreglo[i],sizeof(int),1,archivo) > 0)
         {
-            printf("\nakdas");
-
-
-            if (i < validos)
+            if (arreglo[i] < menorElemento)
             {
-
-
-                menorElemento = menorArchivo(archivo,arreglo[i],validos,i);
-
-
+                menorElemento = arreglo[i];
+            }
+            else
+            {
+                menorElemento = menorArchivo(archivo,arreglo,validos,i+1);
             }
 
         }
-
     }
     else
         printf("Error");

@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1663720317 source:c:\users\frank\desktop\laboratorioii\repaso parcial i\recursividad\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<conio.h>
+

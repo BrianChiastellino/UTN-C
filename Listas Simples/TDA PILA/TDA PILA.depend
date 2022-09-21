@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1663386899 source:c:\users\frank\desktop\laboratorioii\listas simples\tda pila\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
