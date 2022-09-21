@@ -110,13 +110,16 @@ int main()
 void ejercicio8()
 {
     char archivoInt[]  = "archivo.dat";
-    int arreglo[] = {3,4,5,6,2,3,4};
-    int validos = 6;
+    int arreglo[] = {-30,5,3,21,3,-22,-2,-10};
+    int validos = 8;
     int menorValor;
 
     cargarArchivoDeArreglo(archivoInt,arreglo,validos);
     mostrarArchivo(archivoInt);
 
+    menorValor = darMenorDatoEnArchivoSubPrograma(archivoInt);
+
+    printf("\nMenor valor en archivo: %d",menorValor);
 
 }
 
@@ -273,47 +276,87 @@ void mostrarEntero (int dato)
     printf("\nDato: %d", dato);
 }
 
-int darMenorDatoEnArchivo (char archivoInt[])
+int darMenorDatoEnArchivoSubPrograma (char archivoInt[])
 {
     FILE * archi = fopen(archivoInt, "r+b");
     int menor;
+    int validosArchivo;
 
     if (archi != NULL)
     {
 
+        validosArchivo = darValidosArchivo(archi);
+
+        menor = buscarMenorArchivo(archi,validosArchivo,0);
 
         fclose(archi);
     }
 
-
-
-
-
+    printf("\nValidos arc %d",validosArchivo);
 
     return menor;
 }
 
+
+int buscarMenorArchivo(FILE * archivo, int validos, int i)
+{
+    int datoMenor;
+    int dato;
+
+    if (i<validos-1)
+    {
+        dato = retornarEnteroDesdeArchivo(archivo,i);
+        datoMenor = dato;
+
+        datoMenor = buscarMenorArchivo(archivo,validos,i+1);
+    }
+    else
+    {
+        dato = retornarEnteroDesdeArchivo(archivo,i);
+        datoMenor = dato;
+    }
+
+    dato = retornarEnteroDesdeArchivo(archivo,i);
+
+    if (dato < datoMenor)
+    {
+        datoMenor = dato;
+    }
+
+    return datoMenor;
+}
+
 int retornarEnteroDesdeArchivo (FILE * archivo, int pos)
 {
-    int dato;
+    int datoMenor;
 
     if (pos == 0)
     {
         fseek(archivo,0,SEEK_SET);
-        fread(&dato,sizeof(int),1,archivo);
+        fread(&datoMenor,sizeof(int),1,archivo);
     }
     else
     {
         fseek(archivo,sizeof(int)*(pos),SEEK_SET);
 
-        fread(&dato,sizeof(int),1,archivo);
+        fread(&datoMenor,sizeof(int),1,archivo);
     }
 
-    return dato;
+    return datoMenor;
 }
 
+int darValidosArchivo (FILE * archivo)
+{
+    int validos;
 
+    rewind(archivo);
 
+    fseek(archivo,0,SEEK_END);
+
+    validos = ftell(archivo) / sizeof(int);
+
+    return validos;
+}
 
 
 
