@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1663873385 source:c:\users\candela\desktop\laboratorio ii\laboratorioii\repaso parcial i\listas simples\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
