@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1663901640 source:c:\users\candela\desktop\laboratorio ii\laboratorioii\repaso parcial i\tda pila\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+

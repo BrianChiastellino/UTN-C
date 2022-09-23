@@ -118,14 +118,6 @@ void ejercicio4()
     mostrarLista(listaIntercalada);
 }
 
-int main()
-{
-    ejercicio5();
-
-
-    return 0;
-}
-
 void ejercicio5()
 {
     nodo * lista = inicLista();
@@ -141,8 +133,20 @@ void ejercicio5()
     lista = invertirLista(lista);
 
     mostrarLista(lista);
-
 }
+
+
+
+int main()
+{
+
+
+
+
+
+    return 0;
+}
+
 
 nodo * invertirLista (nodo * lista)
 {
