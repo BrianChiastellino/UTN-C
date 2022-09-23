@@ -50,6 +50,9 @@ nodo * intercambiarLista (nodo * lista1, nodo * lista2, nodo * listaIntercalada)
 void cargarArchivoPersona (char archivoPersona[]);
 void mostrarArchivoPersona (char archivoPersona[]);
 
+nodo * invertirLista (nodo * lista);
+
+
 
 void ejercicio1()
 {
@@ -117,11 +120,50 @@ void ejercicio4()
 
 int main()
 {
-    ejercicio4();
+    ejercicio5();
 
 
     return 0;
 }
+
+void ejercicio5()
+{
+    nodo * lista = inicLista();
+
+    lista = agregarAlPrincipioSimple(lista,crearNodoSimple(crearPersona()));
+    lista = agregarAlPrincipioSimple(lista,crearNodoSimple(crearPersona()));
+
+    mostrarLista(lista);
+
+    system("pause");
+    system("cls");
+
+    lista = invertirLista(lista);
+
+    mostrarLista(lista);
+
+}
+
+nodo * invertirLista (nodo * lista)
+{
+    nodo * aux;
+    nodo * listaInvertida = inicLista();
+
+    while (lista != NULL)
+    {
+        aux = lista;
+
+        lista = lista->siguiente;
+
+        aux->siguiente = inicLista();
+
+        listaInvertida = agregarAlPrincipioSimple(listaInvertida,aux);
+
+    }
+
+    return listaInvertida;
+}
+
 
 
 nodo * intercambiarLista (nodo * lista1, nodo * lista2, nodo * listaIntercalada)
