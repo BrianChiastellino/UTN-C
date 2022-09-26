@@ -43,13 +43,80 @@ nodoAuto * pasarArchivoToLista (char archivo[], nodoAuto * lista);
 nodoAuto * pasarArchivoToListaRecursivoSubprograma(char archivo[], nodoAuto * lista);
 void pasarArchivoToListaRecursivo(FILE * archivo, nodoAuto ** lista);
 
+nodoAuto * ordenarLista (nodoAuto * lista);
+nodoAuto * obtenerMenor (nodoAuto * iterador);
+nodoAuto * intercambio (nodoAuto * anterior, nodoAuto * iterador, nodoAuto * menor);
 
-
+void intercambiaNodoBlas(nodoAuto ** anterior, nodoAuto ** iterador, nodoAuto ** menor);
 
 int main()
 {
+    nodoAuto * lista = inicLista();
+    char archivoAutos[] = "infoAutos.dat";
+    lista = pasarArchivoToLista(archivoAutos,lista);
+
+    mostrarLista(lista);
+
+    printf("\nOrdenar: ");
+    lista = ordenarLista(lista);
+
+    mostrarLista(lista);
 
     return 0;
+}
+
+nodoAuto * ordenarLista (nodoAuto * lista)
+{
+    nodoAuto * iterador =  lista;
+    nodoAuto * anterior;
+
+    if (iterador != NULL)
+    {
+        while(iterador != NULL)
+        {
+
+            mostrarLista(iterador);
+            anterior = iterador;
+            nodoAuto * menor = obtenerMenor(iterador);
+            iterador = iterador->siguiente;
+            intercambioChaste(&anterior,&iterador,&menor);
+        }
+    }
+
+    return iterador;
+}
+
+nodoAuto * obtenerMenor (nodoAuto * iterador)
+{
+    nodoAuto* menor = iterador;
+    // iterador = iterador->siguiente;
+
+    while(iterador!=NULL)
+    {
+        if(iterador->dato.valor <  menor->dato.valor)
+        {
+            menor = iterador;
+        }
+
+        iterador = iterador->siguiente;
+    }
+
+    return menor;
+}
+
+void intercambioChaste (nodoAuto ** anterior, nodoAuto ** iterador, nodoAuto ** menor)
+{
+    (*anterior)->siguiente = (*menor)->siguiente;    // iterador->siguiente = menor->siguiente;
+    (*menor)->siguiente = (*iterador);
+
+}
+
+void intercambiaNodoBlas(nodoAuto ** anterior, nodoAuto ** iterador, nodoAuto ** menor)
+{
+    (*iterador)->siguiente = (*anterior);
+    (*anterior)->siguiente = (*menor)->siguiente;
+    (*anterior) = (*menor);
+    (*menor)->siguiente = (*iterador);
 }
 
 void cargarArchivo (char archivo[])
