@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1664150665 source:c:\users\frank\desktop\laboratorioii\repaso parcial i\repaso parcial v1\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<ctype.h>
+	<conio.h>
+

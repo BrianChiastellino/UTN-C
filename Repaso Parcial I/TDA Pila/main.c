@@ -35,8 +35,14 @@ int main()
 
     apilar(&pilita,crearTope(crearPersona()));
     apilar(&pilita,crearTope(crearPersona()));
+    apilar(&pilita,crearTope(crearPersona()));
 
-    mostrarPila(&pilita);
+
+    Pila aux;
+    inicPila(&aux);
+
+    apilar(&aux,desapilar())
+
 
 
     return 0;
